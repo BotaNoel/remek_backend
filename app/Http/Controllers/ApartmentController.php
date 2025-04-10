@@ -42,4 +42,7 @@ class ApartmentController extends Controller
             return response()->json(['error' => 'Hiba történt a szállás létrehozása során.'], 500);
         }
     }
+    public function index(){
+        return response()->json(Apartment::with(["type","filters","photos","location"])->get(), 200, ['Access-Control-Allow-Origin' => '*'], JSON_UNESCAPED_UNICODE);
+    }
 }

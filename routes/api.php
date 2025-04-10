@@ -11,6 +11,8 @@ Route::get('/types', [ApartmentTypeController::class, 'index']);
 
 Route::post('/apartments', [ApartmentController::class, 'store']);
 
+Route::get('/apartments', [ApartmentController::class, 'index']);
+
 Route::post('/filters', [FilterController::class, 'store']);
 
 Route::post('/locations', [LocationController::class, 'store']);
