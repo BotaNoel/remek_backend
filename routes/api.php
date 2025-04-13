@@ -18,3 +18,5 @@ Route::post('/filters', [FilterController::class, 'store']);
 Route::post('/locations', [LocationController::class, 'store']);
 
 Route::post('/photos', [PhotoController::class, 'store']);
+
+Route::post('/apartments/search', [ApartmentController::class, 'search']);

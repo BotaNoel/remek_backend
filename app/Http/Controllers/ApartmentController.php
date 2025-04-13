@@ -45,4 +45,43 @@ class ApartmentController extends Controller
     public function index(){
         return response()->json(Apartment::with(["type","filters","photos","location"])->get(), 200, ['Access-Control-Allow-Origin' => '*'], JSON_UNESCAPED_UNICODE);
     }
+
+    public function search(Request $request)
+    {
+        $query = Apartment::query()
+            ->with(['location', 'filters', 'photos']);
+
+        if ($request->has('city') && $request->city) {
+            $query->whereHas('location', function ($q) use ($request) {
+                $q->where('city', 'LIKE', '%' . $request->city . '%');
+            });
+        }
+
+        if ($request->has('type_id') && $request->type_id) {
+            $query->where('type_id', $request->type_id);
+        }
+
+        if ($request->has('filters')) {
+            foreach ($request->filters as $key => $value) {
+                if ($value) {
+                    $query->whereHas('filters', function ($q) use ($key) {
+                        $q->where($key, true);
+                    });
+                }
+            }
+        }
+
+        $results = $query->get()->map(function ($apartment) {
+            return [
+                'id' => $apartment->id,
+                'name' => $apartment->name,
+                'description' => $apartment->description,
+                'price_per_night' => $apartment->price_per_night,
+                'max_capacity' => $apartment->max_capacity,
+                'cover_photo' => $apartment->photos->first()->url ?? null
+            ];
+        });
+
+        return response()->json($results);
+    }
 }
