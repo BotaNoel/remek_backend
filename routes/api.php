@@ -20,3 +20,5 @@ Route::post('/locations', [LocationController::class, 'store']);
 Route::post('/photos', [PhotoController::class, 'store']);
 
 Route::post('/apartments/search', [ApartmentController::class, 'search']);
+
+Route::get('/apartments/{id}', [ApartmentController::class, 'show']);

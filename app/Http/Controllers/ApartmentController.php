@@ -84,4 +84,28 @@ class ApartmentController extends Controller
 
         return response()->json($results);
     }
+
+    public function show($id)
+    {
+        $apartment = Apartment::with(['type', 'filters', 'photos', 'location'])->findOrFail($id);
+
+        return response()->json([
+            'id' => $apartment->id,
+            'name' => $apartment->name,
+            'description' => $apartment->description,
+            'max_capacity' => $apartment->max_capacity,
+            'price_per_night' => $apartment->price_per_night,
+            'created_at' => $apartment->created_at->toDateString(),
+            'type' => $apartment->type->name ?? 'Ismeretlen',
+            'filters' => $apartment->filters,
+            'photo' => $apartment->photos->first()->url ?? null,
+            'location' => [
+                'postal_code' => $apartment->location->postal_code ?? '',
+                'city' => $apartment->location->city ?? '',
+                'street' => $apartment->location->street ?? '',
+                'address_number' => $apartment->location->address_number ?? '',
+            ],
+        ]);
+    }
+
 }
