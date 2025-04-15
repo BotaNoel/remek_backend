@@ -6,6 +6,7 @@ use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/types', [ApartmentTypeController::class, 'index']);
 
@@ -22,3 +23,7 @@ Route::post('/photos', [PhotoController::class, 'store']);
 Route::post('/apartments/search', [ApartmentController::class, 'search']);
 
 Route::get('/apartments/{id}', [ApartmentController::class, 'show']);
+
+Route::get('/apartments/{id}/orders', [OrderController::class, 'index']);
+
+Route::post('/apartments/{id}/orders', [OrderController::class, 'store']);
