@@ -13,6 +13,11 @@ class ApartmentController extends Controller
     public function store(Request $request)
     {
         try {
+            /*$user = Auth::user();
+            if (!$user) {
+                return response()->json(['error' => 'Nem vagy bejelentkezve.'], 401);
+            }*/
+
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'type_id' => 'required|integer|exists:apartment_types,id',
@@ -98,7 +103,12 @@ class ApartmentController extends Controller
             'created_at' => $apartment->created_at->toDateString(),
             'type' => $apartment->type->name ?? 'Ismeretlen',
             'filters' => $apartment->filters,
-            'photo' => $apartment->photos->first()->url ?? null,
+            'photo' => $apartment->photos->first()->url ?? null, // kompatibilitás a régivel
+            'photos' => $apartment->photos->map(function ($photo) {
+                return [
+                    'url' => $photo->url
+                ];
+            }),
             'location' => [
                 'postal_code' => $apartment->location->postal_code ?? '',
                 'city' => $apartment->location->city ?? '',
