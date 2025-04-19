@@ -13,10 +13,10 @@ class ApartmentController extends Controller
     public function store(Request $request)
     {
         try {
-            /*$user = Auth::user();
+            $user = Auth::user();
             if (!$user) {
                 return response()->json(['error' => 'Nem vagy bejelentkezve.'], 401);
-            }*/
+            }
 
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
@@ -24,12 +24,11 @@ class ApartmentController extends Controller
                 'max_capacity' => 'required|integer|min:1',
                 'description' => 'nullable|string',
                 'price_per_night' => 'required|numeric|min:0',
+                'user_id' => 'required|exists:users,id',  // Felhasználó ID validálás
             ]);
 
-            $user = Auth::user();
-
             $apartment = Apartment::create([
-                'user_id' => 1,
+                'user_id' => $user->id,
                 'name' => $validated['name'],
                 'type_id' => $validated['type_id'],
                 'max_capacity' => $validated['max_capacity'],

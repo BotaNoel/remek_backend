@@ -7,10 +7,17 @@ use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
+
+Route::post('register', [AuthController::class, 'register']);
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('/types', [ApartmentTypeController::class, 'index']);
 
-Route::post('/apartments', [ApartmentController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/apartments', [ApartmentController::class, 'store']);
 
 Route::get('/apartments', [ApartmentController::class, 'index']);
 
