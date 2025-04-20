@@ -19,6 +19,11 @@ class OrderController extends Controller
 
     public function store(Request $request, $apartmentId)
     {
+        /*
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Bejelentkezés szükséges.'], 401);
+        }*/
+
         $request->validate([
             'arrival_date' => 'required|date',
             'departure_date' => 'required|date|after:arrival_date',

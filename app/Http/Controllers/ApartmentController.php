@@ -101,6 +101,7 @@ class ApartmentController extends Controller
             'price_per_night' => $apartment->price_per_night,
             'created_at' => $apartment->created_at->toDateString(),
             'type' => $apartment->type->name ?? 'Ismeretlen',
+            'uploader' => $apartment->user->name ?? 'Ismeretlen',
             'filters' => $apartment->filters,
             'photo' => $apartment->photos->first()->url ?? null, // kompatibilitás a régivel
             'photos' => $apartment->photos->map(function ($photo) {
