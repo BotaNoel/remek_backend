@@ -63,10 +63,5 @@ class Apartment extends Model
     {
         return $this->hasMany(Order::class);
     }
-
-    public function images()
-    {
-        return $this->hasMany(Image::class); // vagy amilyen osztályneved van
-    }
 }
 

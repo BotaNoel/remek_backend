@@ -49,6 +49,9 @@ class OrderController extends Controller
 
         // Apartman ár lekérése
         $apartment = Apartment::findOrFail($apartmentId);
+
+        $userId = $request->input('user_id');
+
         $pricePerNight = $apartment->price_per_night;
 
         // Napok kiszámolása
@@ -60,12 +63,12 @@ class OrderController extends Controller
 
         $order = Order::create([
             'apartment_id' => $apartmentId,
-            'user_id' => auth()->id() ?? 1, // ha nincs auth, default user
+            'user_id' => $userId,
             'arrival_date' => $request->arrival_date,
             'departure_date' => $request->departure_date,
             'headcount' => $request->headcount,
             'total_price' => $totalPrice,
-            'status' => 'pending'
+            'status' => 'completed'
         ]);
 
         return response()->json($order, 201);
