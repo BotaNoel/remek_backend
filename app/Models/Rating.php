@@ -10,13 +10,21 @@ class Rating extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rating_value'
+        'user_id', 'apartment_id', 'rating_value'
     ];
 
-    // Kapcsolat a comments táblával
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function apartment()
+    {
+        return $this->belongsTo(Apartment::class);
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 }
-

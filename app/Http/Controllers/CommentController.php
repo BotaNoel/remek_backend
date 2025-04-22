@@ -20,12 +20,14 @@ class CommentController extends Controller
             $validated = $request->validate([
                 'apartment_id' => 'required|exists:apartments,id',
                 'content' => 'required|string|max:1000',
+                'rating_id' => 'required|exists:ratings,id',
             ]);
 
             $comment = Comment::create([
                 'user_id' => $user->id,
                 'apartment_id' => $validated['apartment_id'],
-                'content' => $validated['content'],
+                'rating_id' => $validated['rating_id'],
+                'comment' => $validated['content'],
             ]);
 
             return response()->json([
@@ -39,14 +41,18 @@ class CommentController extends Controller
 
     public function forApartment($apartmentId)
     {
-        $comments = Comment::where('apartment_id', $apartmentId)->with('user')->latest()->get();
+        $comments = Comment::where('apartment_id', $apartmentId)
+            ->with('user', 'rating')
+            ->latest()
+            ->get();
 
         return response()->json([
             'comments' => $comments->map(function ($comment) {
                 return [
                     'id' => $comment->id,
                     'user' => $comment->user->name ?? 'Ismeretlen',
-                    'content' => $comment->content,
+                    'content' => $comment->comment,
+                    'rating' => $comment->rating->rating_value ?? null,
                     'created_at' => $comment->created_at->diffForHumans(),
                 ];
             }),

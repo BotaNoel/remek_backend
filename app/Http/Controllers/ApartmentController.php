@@ -103,7 +103,7 @@ class ApartmentController extends Controller
             'type' => $apartment->type->name ?? 'Ismeretlen',
             'uploader' => $apartment->user->name ?? 'Ismeretlen',
             'filters' => $apartment->filters,
-            'photo' => $apartment->photos->first()->url ?? null, // kompatibilitás a régivel
+            'photo' => $apartment->photos->first()->url ?? null,
             'photos' => $apartment->photos->map(function ($photo) {
                 return [
                     'url' => $photo->url

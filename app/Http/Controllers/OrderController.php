@@ -73,4 +73,14 @@ class OrderController extends Controller
 
         return response()->json($order, 201);
     }
+
+    public function hasBooked($apartmentId, $userId)
+    {
+        $hasBooked = Order::where('apartment_id', $apartmentId)
+            ->where('user_id', $userId)
+            ->where('status', '!=', 'cancelled')
+            ->exists();
+
+        return response()->json(['hasBooked' => $hasBooked]);
+    }
 }
