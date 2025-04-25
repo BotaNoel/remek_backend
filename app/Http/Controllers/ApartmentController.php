@@ -24,7 +24,7 @@ class ApartmentController extends Controller
                 'max_capacity' => 'required|integer|min:1',
                 'description' => 'nullable|string',
                 'price_per_night' => 'required|numeric|min:0',
-                'user_id' => 'required|exists:users,id',  // Felhasználó ID validálás
+                'user_id' => 'required|exists:users,id',
             ]);
 
             $apartment = Apartment::create([
